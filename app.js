@@ -8,6 +8,11 @@ const { name, port, dbUri } = require('./_config/config');
 App.use(cors());
 App.use(morgan('combined'));
 
+App.use(bodyParser.urlencoded({ extended: true }))
+App.use(bodyParser.json());
+
+App.use('/v0', require('./_route'))
+
 mongoose.connect(dbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
