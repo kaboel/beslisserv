@@ -5,6 +5,9 @@
   "repository": "https://github.com/kaboel/beslisserv.git",
   "author": "Faiq <faiq.kaboel@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "nodemon src/app.js"
+  },
   "dependencies": {
     "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",

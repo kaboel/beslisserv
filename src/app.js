@@ -5,11 +5,14 @@ const cors = require('cors')
 const morgan = require('morgan')
 const db = require('./config/db')
 const port = process.env.PORT || 4400
+const prefix = `/v0`
 
 App.use(cors())
 App.use(morgan('combined'))
 App.use(bodyParser.json())
 App.use(bodyParser.urlencoded({ extended: true }))
+
+require('./routes')(App)
 
 mongoose.connect(db.dbUri, {
   useNewUrlParser: true,
