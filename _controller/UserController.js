@@ -3,7 +3,7 @@ const {
   passwordHash,
   passwordIsValid,
   generateToken,
-} = require('../_auth/AuthMiddleware')
+} = require('../_middleware/AuthMiddleware')
 
 const registerNewUser = async (req, res) => {
   try {

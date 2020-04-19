@@ -14,7 +14,7 @@ const generateToken = (userId) => {
   return jwt.sign(
     { id: userId },
     secret,
-    { expiresIn: 86400}
+    { expiresIn: 86400 }
   );
 }
 
@@ -31,7 +31,7 @@ const verifyToken = (req, res, next) => {
       return res.status(500).send({
         auth: false,
         message: "Failed to verify token."
-      })
+      });
     }
     req.userId = decoded.id;
     next();

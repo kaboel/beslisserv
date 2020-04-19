@@ -1,6 +1,5 @@
 const router = require('express').Router()
-const { verifyToken } = require('../../_auth/AuthMiddleware');
-
+const { verifyToken } = require('../../_middleware/AuthMiddleware');
 const {
   registerNewUser,
   loginUser,
@@ -10,6 +9,7 @@ const {
 router.post('/register', registerNewUser);
 router.post('/register', loginUser);
 
+// requests after next line are jwt-secured
 router.get('/me', verifyToken,  getUserDetail);
 
 module.exports = router;
