@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const { name, port, dbUri } = require('./_config/config');
+const { name, port, dbUri } = require('./config');
 
 App.use(cors());
 App.use(morgan('combined'));
@@ -11,7 +11,7 @@ App.use(morgan('combined'));
 App.use(bodyParser.urlencoded({ extended: true }))
 App.use(bodyParser.json());
 
-App.use('/v0', require('./_route'))
+App.use('/v0', require('./_route'));
 
 mongoose.connect(dbUri, {
   useNewUrlParser: true,
