@@ -7,7 +7,7 @@ const {
 } = require('../../_controller/UserController')
 
 router.post('/register', registerNewUser);
-router.post('/register', loginUser);
+router.post('/login', loginUser);
 
 // requests after next line are jwt-secured
 router.get('/me', verifyToken,  getUserDetail);
