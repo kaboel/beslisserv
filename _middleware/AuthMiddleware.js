@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { secret } = require('../config');
 
-const passwordHash = (password) => {
-  return bcrypt.hash(password, 8);
+const passwordHash = async (password) => {
+  return await bcrypt.hash(password, 8);
 }
 
 const passwordIsValid = (password, hash) => {

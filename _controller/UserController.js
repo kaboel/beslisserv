@@ -14,7 +14,7 @@ const registerNewUser = async (req, res) => {
         message: "Email is already in use."
       })
     }
-    let hash = passwordHash(req.body.password)
+    let hash = await passwordHash(req.body.password)
     user = new User({
       name: req.body.name,
       email: req.body.email,
@@ -23,7 +23,7 @@ const registerNewUser = async (req, res) => {
     await user.save().then(user => {
       res.status(200).send({
         auth: true,
-        id: user.id,
+        id: user._id,
         name: user.name,
         email: user.email,
         access_token: generateToken(user._id)
