@@ -9,9 +9,10 @@ const registerNewUser = async (req, res) => {
   try {
     let user = User.find({ email: req.body.email });
     if (user.length >= 1) {
-      return res.status(409).send(
-        "Email is already in use."
-      )
+      return res.status(409).send({
+        auth: false,
+        message: "Email is already in use."
+      })
     }
     let hash = passwordHash(req.body.password)
     user = new User({
@@ -22,17 +23,22 @@ const registerNewUser = async (req, res) => {
     await user.save().then(user => {
       res.status(200).send({
         auth: true,
+        id: user.id,
+        name: user.name,
+        email: user.email,
         access_token: generateToken(user._id)
       })
     }).catch(err => {
-      return res.status(500).send(
-        "There was a problem registering the user."
-      )
+      return res.status(500).send({
+        auth: false,
+        message: "There was a problem registering the user."
+      })
     });
   } catch (e) {
-    return res.status(400).send(
-      "Request error."
-    )
+    return res.status(400).send({
+      auth: false,
+      message: "Request error."
+    })
   }
 };
 
@@ -40,14 +46,16 @@ const loginUser = (req, res) => {
   User.findOne({ email: req.body.email },
     (err, user) => {
       if (err) {
-        return res.status(500).send(
-          "Error while logging in."
-        );
+        return res.status(500).send({
+          auth: false,
+          message: "Error while logging in."
+        });
       }
       if (!user) {
-        return res.status(404).send(
-          "Email not signed to any user."
-        );
+        return res.status(404).send({
+          auth: false,
+          message: "Email not signed to any user."
+        });
       }
       if (!passwordIsValid(req.body.password, user.password)) {
         return res.status(401).send({
@@ -56,9 +64,11 @@ const loginUser = (req, res) => {
           message: "Password incorrect."
         });
       }
-
       res.status(200).send({
         auth: true,
+        id: user._id,
+        name: user.name,
+        email: user.email,
         access_token: generateToken(user._id)
       });
     })
@@ -76,7 +86,12 @@ const getUserDetail = (req, res) => {
         "User not found."
       )
     }
-    res.status(200).send(user);
+    res.status(200).send({
+      auth: true,
+      id: user.id,
+      name: user.name,
+      email: user.email
+    });
   });
 };
 

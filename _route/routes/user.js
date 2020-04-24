@@ -10,6 +10,7 @@ router.post('/register', registerNewUser);
 router.post('/login', loginUser);
 
 // requests after next line are jwt-secured
-router.get('/me', verifyToken,  getUserDetail);
+// access_token is required to access these requests
+router.get('/me', verifyToken, getUserDetail);
 
 module.exports = router;

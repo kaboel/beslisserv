@@ -19,7 +19,7 @@ const generateToken = (userId) => {
 }
 
 const verifyToken = (req, res, next) => {
-  var token = req.headers['access_token'];
+  let token = req.headers['access_token'];
   if (!token) {
     return res.status(403).send({
       auth: false,
@@ -28,9 +28,9 @@ const verifyToken = (req, res, next) => {
   }
   jwt.verify(token, secret, (err, decoded) => {
     if (err) {
-      return res.status(500).send({
+      return res.status(401).send({
         auth: false,
-        message: "Failed to verify token."
+        message: "Expired access_token provided."
       });
     }
     req.userId = decoded.id;

@@ -3,9 +3,9 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const { name, port, dbUri } = require('./config');
+const { port, dbUri } = require('./config');
 
-App.use(cors());
+App.use(cors({ credentials: true, origin: true }));
 App.use(morgan('combined'));
 
 App.use(bodyParser.urlencoded({ extended: true }))
