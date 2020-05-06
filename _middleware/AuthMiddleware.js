@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { secret } = require('../config');
+const User = require('../_model/User');
 
 const passwordHash = async (password) => {
   return await bcrypt.hash(password, 8);
@@ -14,7 +15,7 @@ const generateToken = (userId) => {
   return jwt.sign(
     { id: userId },
     secret,
-    { expiresIn: 86400 }
+    { expiresIn: 604800 } //exp. in 7-days
   );
 }
 
@@ -33,8 +34,21 @@ const verifyToken = (req, res, next) => {
         message: "Expired access_token provided."
       });
     }
-    req.userId = decoded.id;
-    next();
+    User.findById(decoded.id).then(user => {
+      if (!user) {
+        return res.status(500).send({
+          auth: false,
+          message: "Token Error. User not found."
+        });
+      }
+      req.userId = decoded.id;
+      next();
+    }).catch(err => {
+      return res.status(500).send({
+        auth: false,
+        message: "Token Error. Error fetching user data."
+      });
+    });
   });
 }
 
