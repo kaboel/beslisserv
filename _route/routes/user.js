@@ -1,10 +1,10 @@
-const router = require('express').Router()
+const router = require('express').Router();
 const { verifyToken } = require('../../_middleware/AuthMiddleware');
 const {
   registerNewUser,
   loginUser,
   getUserDetail
-} = require('../../_controller/UserController')
+} = require('../../_controller/UserController');
 
 router.post('/register', registerNewUser);
 router.post('/login', loginUser);
